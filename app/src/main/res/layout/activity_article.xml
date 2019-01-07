@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/et_username"
+                android:id="@+id/et_article_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -37,6 +37,11 @@
 
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/sp_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,13 +59,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="query"/>
-
-            <Button
-                android:id="@+id/bt_jump"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="跳转"/>
         </LinearLayout>
 
         <FrameLayout
@@ -71,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_user"
+                    android:id="@+id/rv_article"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </android.support.v4.widget.SwipeRefreshLayout>

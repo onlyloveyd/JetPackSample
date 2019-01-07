@@ -1,4 +1,4 @@
-package cn.onlyloveyd.wanandroid.dao;
+package cn.onlyloveyd.jetpack.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -9,7 +9,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import cn.onlyloveyd.wanandroid.entity.User;
+import cn.onlyloveyd.jetpack.entity.User;
 
 /**
  * UserDao

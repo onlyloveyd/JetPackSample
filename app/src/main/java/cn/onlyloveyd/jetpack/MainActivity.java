@@ -1,4 +1,4 @@
-package cn.onlyloveyd.wanandroid;
+package cn.onlyloveyd.jetpack;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,21 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.idescout.sql.SqlScoutServer;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import cn.onlyloveyd.wanandroid.adapter.UserAdapter;
-import cn.onlyloveyd.wanandroid.databinding.ActivityMainBinding;
-import cn.onlyloveyd.wanandroid.db.UsersDatabase;
-import cn.onlyloveyd.wanandroid.entity.User;
-import cn.onlyloveyd.wanandroid.event.UserEvent;
-import cn.onlyloveyd.wanandroid.ext.RandomStringGenerator;
-import cn.onlyloveyd.wanandroid.repository.UserRepository;
+import cn.onlyloveyd.jetpack.adapter.UserAdapter;
+import cn.onlyloveyd.jetpack.databinding.ActivityMainBinding;
+import cn.onlyloveyd.jetpack.db.JetpackDatabase;
+import cn.onlyloveyd.jetpack.entity.User;
+import cn.onlyloveyd.jetpack.event.UserEvent;
+import cn.onlyloveyd.jetpack.ext.RandomStringGenerator;
+import cn.onlyloveyd.jetpack.repository.UserRepository;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -35,15 +33,13 @@ public class MainActivity extends AppCompatActivity implements
 
     UserAdapter mUserAdapter;
 
-    private SqlScoutServer sqlScoutServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        sqlScoutServer = SqlScoutServer.create(this, getPackageName());
-        mUserRepository = new UserRepository(UsersDatabase.getInstance(getApplicationContext()));
+        mUserRepository = new UserRepository(JetpackDatabase.getInstance(getApplicationContext()));
         mUserAdapter = new UserAdapter(this);
 
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
@@ -57,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements
 
         mBinding.btQuery.setOnClickListener(v -> loadUsers());
 
-        mBinding.btRandom.setOnClickListener(v -> {
-            mBinding.etUsername.setText(RandomStringGenerator.getRandomString(10));
-        });
+        mBinding.btJump.setOnClickListener(v -> ArticleActivity.launch(this));
+
+        mBinding.btRandom.setOnClickListener(
+                v -> mBinding.etUsername.setText(RandomStringGenerator.getRandomString(10)));
 
         onRefresh();
     }
@@ -74,24 +71,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sqlScoutServer.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sqlScoutServer.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sqlScoutServer.destroy();
     }
 
     @Override
@@ -127,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         };
-        mUserRepository.LoadUsers().subscribeOn(Schedulers.newThread()).observeOn(
+        mUserRepository.loadUsers().subscribeOn(Schedulers.newThread()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe(observer);
     }
 
@@ -189,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(UserEvent userEvent) {
-        int position = userEvent.getIndex();
         User user = userEvent.getUser();
         deleteUser(user);
     }

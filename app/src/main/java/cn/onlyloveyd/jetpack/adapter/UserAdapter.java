@@ -1,4 +1,4 @@
-package cn.onlyloveyd.wanandroid.adapter;
+package cn.onlyloveyd.jetpack.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
 
-import cn.onlyloveyd.wanandroid.databinding.RvItemUserBinding;
-import cn.onlyloveyd.wanandroid.entity.User;
-import cn.onlyloveyd.wanandroid.event.UserEvent;
+import cn.onlyloveyd.jetpack.databinding.RvItemUserBinding;
+import cn.onlyloveyd.jetpack.entity.User;
+import cn.onlyloveyd.jetpack.event.UserEvent;
 
 /**
  * UserAdapter
@@ -34,7 +34,7 @@ public class UserAdapter extends RecyclerViewAdapter<User, RecyclerViewAdapter.B
         RvItemUserBinding binding = (RvItemUserBinding) bindingViewHolder.mBinding;
         binding.setData(getItem(i));
         bindingViewHolder.itemView.setOnLongClickListener(v -> {
-            EventBus.getDefault().post(new UserEvent(i, getItem(i)));
+            EventBus.getDefault().post(new UserEvent(getItem(i)));
             return false;
         });
 

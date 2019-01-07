@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package cn.onlyloveyd.wanandroid.repository;
+package cn.onlyloveyd.jetpack.repository;
 
 import java.util.List;
 
-import cn.onlyloveyd.wanandroid.db.UsersDatabase;
-import cn.onlyloveyd.wanandroid.entity.User;
+import cn.onlyloveyd.jetpack.db.JetpackDatabase;
+import cn.onlyloveyd.jetpack.entity.User;
 import io.reactivex.Observable;
 
 /**
@@ -27,16 +27,16 @@ import io.reactivex.Observable;
  * @author 45742
  */
 public class UserRepository {
-    private UsersDatabase mUsersDatabase;
+    private JetpackDatabase mJetpackDatabase;
 
-    public UserRepository(UsersDatabase usersDatabase) {
-        mUsersDatabase = usersDatabase;
+    public UserRepository(JetpackDatabase jetpackDatabase) {
+        mJetpackDatabase = jetpackDatabase;
     }
 
-    public Observable<List<User>> LoadUsers() {
+    public Observable<List<User>> loadUsers() {
         Observable<List<User>> observable = Observable.create(
                 e -> {
-                    List<User> results = mUsersDatabase.userDao().getAllUsers();
+                    List<User> results = mJetpackDatabase.userDao().getAllUsers();
                     e.onNext(results);
                     e.onComplete();
                 });
@@ -46,7 +46,7 @@ public class UserRepository {
     public Observable<Long> insertUser(final User user) {
         Observable observable = Observable.create(
                 e -> {
-                    Long rows = mUsersDatabase.userDao().insert(user);
+                    Long rows = mJetpackDatabase.userDao().insert(user);
                     e.onNext(rows);
                     e.onComplete();
                 });
@@ -55,7 +55,7 @@ public class UserRepository {
 
     public Observable<Integer> deleteUser(User user) {
         Observable observable = Observable.create(e ->{
-          int result =  mUsersDatabase.userDao().delete(user);
+            int result = mJetpackDatabase.userDao().delete(user);
           e.onNext(result);
           e.onComplete();
         });

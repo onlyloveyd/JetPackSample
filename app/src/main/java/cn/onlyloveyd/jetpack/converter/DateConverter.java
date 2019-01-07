@@ -1,4 +1,4 @@
-package cn.onlyloveyd.wanandroid.converter;
+package cn.onlyloveyd.jetpack.converter;
 
 import android.arch.persistence.room.TypeConverter;
 

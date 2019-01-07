@@ -1,4 +1,4 @@
-package cn.onlyloveyd.wanandroid.adapter;
+package cn.onlyloveyd.jetpack.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.onlyloveyd.wanandroid.ext.ItemType;
+import cn.onlyloveyd.jetpack.ext.ItemType;
 
 /**
  * RecyclerViewAdapter
